@@ -1,0 +1,25 @@
+services:
+  jupyterlab:
+    build:
+      context: .
+      args:
+        USERNAME: ${USERNAME}
+        UID: ${UID}
+        GID: ${GID}
+    container_name: jupyterlab_${USERNAME}
+    ports:
+      - "8888:8888"
+    volumes:
+      - /data/${USERNAME}:/data
+      - ../:/home/${USERNAME}/projects  # optional project mount
+    environment:
+      - USERNAME=${USERNAME}
+      - UID=${UID}
+      - GID=${GID}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

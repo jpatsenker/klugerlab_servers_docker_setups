@@ -1,0 +1,18 @@
+services:
+  jupyterlab:
+    build:
+      context: .
+      args:
+        USERNAME: ${USERNAME}
+        UID: ${UID}
+        GID: ${GID}
+    container_name: ${USERNAME}_jupyter_cpu
+    ports:
+      - "${JUPYTER_PORT}:8888"
+    volumes:
+      - /data/${USERNAME}:/data
+      - ../:/home/${USERNAME}/projects  # optional project mount
+    environment:
+      - USERNAME=${USERNAME}
+      - UID=${UID}
+      - GID=${GID}
